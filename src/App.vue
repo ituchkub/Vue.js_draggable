@@ -158,7 +158,7 @@
           <div class="">
             <div class="flex">
               <div v-for="column in columns" :key="column.title" class="card"
-                :class="column.title.toLocaleLowerCase() + '_task'">
+                :class="column.title.toLocaleLowerCase() + '_task '">
                 <div class="header">
                   <h2>{{ column.title }}</h2>
                   <ul class="header-dropdown">
@@ -169,7 +169,7 @@
                 <!-- Draggable component comes from vuedraggable. It provides drag & drop functionality -->
                 <draggable :list="column.tasks" :animation="200" ghost-class="ghost-card" group="tasks">
                   <!-- Each element from here will be draggable and animated. Note :key is very important here to be unique both for draggable and animations to be smooth & consistent. -->
-                  <task-card v-for="(task) in column.tasks" :key="task.id" :task="task"
+                  <task-card v-for="(task) in   column.tasks" :key="task.id" :task="task"
                     class="mt-3 cursor-move"></task-card>
                   <!-- </transition-group> -->
                 </draggable>
@@ -197,6 +197,7 @@ export default {
   },
   data() {
     return {
+      page: true,
       columns: [
         {
           title: "Planned",
