@@ -167,7 +167,7 @@
                   </ul>
                 </div>
                 <!-- Draggable component comes from vuedraggable. It provides drag & drop functionality -->
-                <draggable :list="column.tasks" :animation="200" ghost-class="ghost-card" group="tasks">
+                <draggable :list="column.tasks" :animation="200" @end="checkEnd" ghost-class="ghost-card" group="tasks">
                   <!-- Each element from here will be draggable and animated. Note :key is very important here to be unique both for draggable and animations to be smooth & consistent. -->
                   <task-card v-for="(task) in   column.tasks" :key="task.id" :task="task"
                     class="mt-3 cursor-move"></task-card>
@@ -283,6 +283,13 @@ export default {
         }
       ]
     };
+  }, methods: {
+    checkEnd: function (evt) {
+      console.log(evt.from.offsetParent);
+      console.log(evt.to.offsetParent);
+      console.log(evt.from);
+      console.log(evt.to);
+    }
   }
 };
 </script>
