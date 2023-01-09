@@ -157,7 +157,7 @@
           </div>
           <div class="">
             <div class="flex">
-              <div v-for="column in columns" :key="column.title" class="card"
+              <div v-for="column in columns" :key="column.title" class="card" :id="column.taskId"
                 :class="column.title.toLocaleLowerCase() + '_task '">
                 <div class="header">
                   <h2>{{ column.title }}</h2>
@@ -169,7 +169,7 @@
                 <!-- Draggable component comes from vuedraggable. It provides drag & drop functionality -->
                 <draggable :list="column.tasks" :animation="200" @end="checkEnd" ghost-class="ghost-card" group="tasks">
                   <!-- Each element from here will be draggable and animated. Note :key is very important here to be unique both for draggable and animations to be smooth & consistent. -->
-                  <task-card v-for="(task) in   column.tasks" :key="task.id" :task="task"
+                  <task-card v-for="(task) in   column.tasks" :key="task.id" :task="task" :id="task.id"
                     class="mt-3 cursor-move"></task-card>
                   <!-- </transition-group> -->
                 </draggable>
@@ -201,15 +201,49 @@ export default {
       page: true,
       columns: []
     };
-  }, async mounted() {
+  },
+  async mounted() {
     this.onLoadData();
 
   }, methods: {
     checkEnd: function (evt) {
-      console.log(evt.from.offsetParent);
-      console.log(evt.to.offsetParent);
-      console.log(evt.from);
-      console.log(evt.to);
+
+      var _fromId = evt.from.offsetParent.id
+      var _toId = evt.to.offsetParent.id
+
+      evt.from.childNodes.forEach(function (child, index) {
+        onUpdateWork(_fromId, child.id, index)
+      });
+
+
+      evt.to.childNodes.forEach(function (child, index) {
+        onUpdateWork(_toId, child.id, index)
+      });
+
+
+      function onUpdateWork(_taskId, _WorkId, _Sorting) {
+        let payload = {
+          //sessionEmpID: sessionStorage.getItem('SessionEmpID'),
+          body: {
+            taskId: _taskId,
+            WorkId: _WorkId,
+            Sorting: _Sorting
+          },
+          module: 'updateWork',
+        }
+
+        console.log(payload)
+        ConfigService.ConfigGetTaskWork(payload).then(resp => {
+
+          if (resp.data.status) {
+            //this.columns = resp.data.body
+            //this.pagination.totalRows = resp.data.body.length
+          } else {
+            //this.columns = []
+          }
+        })
+      }
+
     },
     async onLoadData() {
       let payload = {
