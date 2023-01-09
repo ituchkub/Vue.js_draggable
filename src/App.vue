@@ -188,6 +188,7 @@
 import draggable from "vuedraggable";
 import TaskCard from "./components/TaskCard.vue";
 import MainMenu from './components/MainMenu.vue'
+import ConfigService from '../service/configService'
 export default {
   name: "App",
   components: {
@@ -198,97 +199,37 @@ export default {
   data() {
     return {
       page: true,
-      columns: [
-        {
-          title: "Planned",
-          tasks: [
-            {
-              id: 1,
-              head: "Dashbaord",
-              title: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-              date: "Sep 14",
-              type: "Feature Request"
-            },
-            {
-              id: 2,
-              head: "New project",
-              title: "It is a long established fact that a reader will be distracted.",
-              date: "Sep 12"
-            },
-            {
-              id: 3,
-              head: "Feed Details",
-              title: "here are many variations of passages of Lorem Ipsum available, but the majority have suffered.",
-              date: "Sep 9",
-              type: "Design"
-            }
-          ]
-        },
-        {
-          title: "In Progress",
-          tasks: [
-            {
-              id: 6,
-              head: "New Code Update",
-              title: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-              date: "Sep 9",
-              type: "Design"
-            },
-            {
-              id: 7,
-              head: "Meeting",
-              title: "The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from \"de Finibus Bonorum et Malorum\" by Cicero",
-              date: "Sep 14",
-              type: "Feature Request"
-            }
-          ]
-        },
-        {
-          title: "Wait for test",
-          tasks: [
-            {
-              id: 9,
-              head: "New Code Update",
-              title: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-              date: "Sep 9",
-              type: "Design"
-            },
-            {
-              id: 10,
-              head: "Meeting",
-              title: "The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from \"de Finibus Bonorum et Malorum\" by Cicero",
-              date: "Sep 14",
-              type: "Feature Request"
-            }
-          ]
-        },
-        {
-          title: "Completed",
-          tasks: [
-            {
-              id: 14,
-              head: "Job title",
-              title: "If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.",
-              date: "Sep 14",
-              type: "Feature Request"
-            },
-            {
-              id: 15,
-              head: "Event Done",
-              title: "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical",
-              date: "Sep 9",
-              type: "Design"
-            }
-          ]
-        }
-      ]
+      columns: []
     };
+  }, async mounted() {
+    this.onLoadData();
+
   }, methods: {
     checkEnd: function (evt) {
       console.log(evt.from.offsetParent);
       console.log(evt.to.offsetParent);
       console.log(evt.from);
       console.log(evt.to);
+    },
+    async onLoadData() {
+      let payload = {
+        //sessionEmpID: sessionStorage.getItem('SessionEmpID'),
+        body: {
+          taskId: "",
+          des: ""
+        },
+        module: 'getlist',
+      }
+      await ConfigService.ConfigGetTaskWork(payload).then(resp => {
+        // console.log(resp)
+        if (resp.data.status) {
+          this.columns = resp.data.body
+          //this.pagination.totalRows = resp.data.body.length
+        } else {
+          this.columns = []
+        }
+      })
+
     }
   }
 };
