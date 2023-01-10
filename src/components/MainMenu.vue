@@ -33,9 +33,9 @@
       </div>
       <!-- Nav tabs -->
       <ul class="nav nav-tabs">
-        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#hr_menu">HR</a></li>
+        <!-- <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#hr_menu">HR</a></li> -->
         <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#project_menu">Project</a></li>
-        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#sub_menu"><i class="icon-grid"></i></a></li>
+        <!-- <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#sub_menu"><i class="icon-grid"></i></a></li>-->
         <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#setting"><i class="icon-settings"></i></a>
         </li>
       </ul>
@@ -101,7 +101,7 @@
         <div class="tab-pane animated fadeIn active" id="project_menu">
           <nav class="sidebar-nav">
             <ul class="main-menu metismenu">
-              <li><a href="index2.html"><i class="icon-speedometer"></i><span>Dashboard</span></a></li>
+              <!-- <li><a href="index2.html"><i class="icon-speedometer"></i><span>Dashboard</span></a></li>
               <li><a href="app-inbox.html"><i class="icon-envelope"></i>Inbox App</a></li>
               <li><a href="app-chat.html"><i class="icon-bubbles"></i>Chat App</a></li>
               <li>
@@ -120,10 +120,10 @@
                   <li><a href="client-list.html">Clients List</a></li>
                   <li><a href="client-detail.html">Clients Detail</a></li>
                 </ul>
-              </li>
-              <li><a href="project-team.html"><i class="icon-users"></i>Team</a></li>
+              </li> -->
+              <!-- <li><a href="project-team.html"><i class="icon-users"></i>Team</a></li> -->
               <li class="active"><a href="app-taskboard.html"><i class="icon-tag"></i>Taskboard</a></li>
-              <li><a href="app-tickets.html"><i class="icon-screen-tablet"></i>Tickets</a></li>
+              <!-- <li><a href="app-tickets.html"><i class="icon-screen-tablet"></i>Tickets</a></li> -->
             </ul>
           </nav>
         </div>

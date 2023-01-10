@@ -162,26 +162,77 @@
                 <div class="header">
                   <h2>{{ column.title }}</h2>
                   <ul class="header-dropdown">
-                    <li><a href="javascript:void(0);" data-toggle="modal" data-target="#addcontact"><i
-                          class="icon-plus"></i></a></li>
+                    <li><a href="javascript:void(0);" @click="onOpenModel(column.taskId);"><i class="icon-plus"></i></a>
+                    </li>
                   </ul>
                 </div>
                 <!-- Draggable component comes from vuedraggable. It provides drag & drop functionality -->
                 <draggable :list="column.tasks" :animation="200" @end="checkEnd" ghost-class="ghost-card" group="tasks">
                   <!-- Each element from here will be draggable and animated. Note :key is very important here to be unique both for draggable and animations to be smooth & consistent. -->
-                  <task-card v-for="(task) in   column.tasks" :key="task.id" :task="task" :id="task.id"
-                    class="mt-3 cursor-move"></task-card>
+                  <!-- <task-card v-for="(task) in   column.tasks" :key="task.id" :task="task" :id="task.id"
+                    class="mt-3 cursor-move"></task-card> -->
+                  <div v-for="(task) in   column.tasks" :id="task.id" v-if="task.id" class="mt-3 cursor-move">
+                    <div class="dd-handle">
+                      <div class=" flex justify-between" style="display: block;">
+                        <div class="headerChild">
+                          <h6>{{ task.head }}</h6>
+                          <ul class="header-dropdown" style="position: absolute;top: -10px;">
+                            <div>
+                              <li style="display: inline-block"><a href="javascript:void(0);"
+                                  @click="onOpenModel(column.taskId);"><i class="icon-note"></i></a>
+                              </li>
+                              <li style="display: inline-block;padding: 0px 0px 0px 4px;"><a href="javascript:void(0);"
+                                  @click="onOpenModel(column.taskId);"><i class="icon-close"></i></a>
+                              </li>
+                            </div>
+                          </ul>
+                        </div>
+                        <p>{{ task.title }}</p>
+                      </div>
+                    </div>
+
+                  </div>
                   <!-- </transition-group> -->
                 </draggable>
               </div>
             </div>
           </div>
         </div>
-
       </div>
     </div>
-  </div>
+    <b-modal ref="m_Master" size="s" title="Add New Task" hide-footer hide-backdrop>
+      <form @submit.prevent="onSave()" @keypress.enter="$event.preventDefault();">
+        <!-- <div class="modal-dialog" role="document"> -->
+        <!-- <div class="modal-content">
+          <div class="modal-header">
+            <h6 class="title" id="defaultModalLabel"></h6>
+          </div> -->
+        <!-- <div class="modal-body"> -->
+        <div class="row clearfix">
+          <div class="col-12">
+            <div class="form-group">
+              <!-- <input type="text" class="form-control" placeholder="Job title"> -->
+              <b-form-input v-model.trim="TaskData._Header" placeholder="Title" />
 
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-group">
+              <!-- <textarea class="form-control" placeholder="Description"></textarea> -->
+              <b-form-textarea v-model.trim="TaskData._Desc" placeholder="Detail" />
+            </div>
+          </div>
+        </div>
+        <!-- </div> -->
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Add</button>
+          <button type="button" class="btn btn-secondary" @click="mdCancel('m_Master')">CLOSE</button>
+        </div>
+        <!-- </div> -->
+        <!-- </div> -->
+      </form>
+    </b-modal>
+  </div>
 </template>
 
 <script>
@@ -198,8 +249,14 @@ export default {
   },
   data() {
     return {
+      modalShow: true,
       page: true,
-      columns: []
+      columns: [],
+      TaskID: '',
+      TaskData: {
+        _Header: '',
+        _Desc: ''
+      }
     };
   },
   async mounted() {
@@ -244,6 +301,45 @@ export default {
         })
       }
 
+    }, async onSave() {
+
+      console.log("Save")
+      console.log(this.TaskData)
+      this.$refs['m_Master'].hide();
+      let payload =
+      {
+        sessionEmpID: 0,
+        body: {
+          taskId: this.TaskID,
+          header: "string",
+          des: "string"
+        },
+        module: "insert"
+      }
+      ConfigService.ConfigGetJobWork(payload).then(resp => {
+
+        if (resp.data.status) {
+          //this.columns = resp.data.body
+          //this.pagination.totalRows = resp.data.body.length
+          this.onLoadData();
+        } else {
+          //this.columns = []
+          this.onLoadData();
+        }
+      })
+
+
+
+
+    },
+    onOpenModel(TID) {
+      this.$refs['m_Master'].show();
+
+      this.TaskID = TID
+      console.log(this.TaskID)
+    },
+    mdCancel(NameID) {
+      this.$refs[NameID].hide()
     },
     async onLoadData() {
       let payload = {

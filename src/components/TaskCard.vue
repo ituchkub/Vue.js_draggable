@@ -1,15 +1,23 @@
 <template>
+
+
   <div class="dd-handle">
     <div class="flex justify-between">
-      <h6>{{ task.head }}</h6>
+      <div class="headerChild">
+        <h6>{{ task.head }}</h6>
+        <ul class="header-dropdown">
+          <div>
+            <li style="display: inline-block"><a href="javascript:void(0);" @click="onOpenModel(column.taskId);"><i
+                  class="icon-note"></i></a>
+            </li>
+            <li style="display: inline-block;padding: 0 3px;"><a href="javascript:void(0);"
+                @click="onOpenModel(column.taskId);"><i class="icon-close"></i></a>
+            </li>
+          </div>
+        </ul>
+      </div>
       <p>{{ task.title }}</p>
-      <!-- <img class="w-6 h-6 rounded-full ml-3" src="https://pickaface.net/gallery/avatar/unr_sample_161118_2054_ynlrg.png"
-        alt="Avatar"> -->
     </div>
-    <!-- <div class="flex mt-4 justify-between items-center">
-      <span class="text-sm text-gray-600">{{ task.date }}</span>
-      <badge v-if="task.type" :color="badgeColor">{{ task.type }}</badge>
-    </div> -->
   </div>
 </template>
 <script>

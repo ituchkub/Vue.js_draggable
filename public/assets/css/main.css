@@ -5978,10 +5978,23 @@ html.fullscreen-bg #wrapper {
     padding-bottom: 35px;
 }
 
+.card .headerChild {
+    color: #444;
+    position: relative;
+    box-shadow: none;
+}
+
 .card .header .header-dropdown {
     position: absolute;
     top: 14px;
     right: 15px;
+    list-style: none
+}
+
+.card .headerChild .header-dropdown {
+    position: absolute;
+    top: 0px;
+    right: -10px;
     list-style: none
 }
 
@@ -11916,23 +11929,39 @@ ul.list-email-received>li,
     height: 5px;
     position: absolute;
     top: -1px;
-    right: 20px
+    right: 7px
 }
 
 .taskboard .planned_task .dd-handle::after {
     background: #0078ff
 }
 
+.taskboard .planned_task i {
+    color: #0078ff
+}
+
 .taskboard .progress_task .dd-handle::after {
     background: #ff613c
+}
+
+.taskboard .progress_task i {
+    color: #ff613c
 }
 
 .taskboard .test_task .dd-handle::after {
     background: #ffc107
 }
 
+.taskboard .test_task i {
+    color: #ffc107
+}
+
 .taskboard .completed_task .dd-handle::after {
     background: #86c541
+}
+
+.taskboard .completed_task i {
+    color: #86c541
 }
 
 .taskboard .dd-item:hover {

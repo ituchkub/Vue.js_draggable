@@ -14,5 +14,9 @@ export default {
     ConfigGetTaskWork(params) {
         return axios.post('http://localhost:8010/TaskBoardApi/GetTaskWork', params, this.config())
         //return axios.post('/TaskBoardApi/GetTaskWork', params, this.config())
+    },
+    ConfigGetJobWork(params) {
+        return axios.post('http://localhost:8010/TaskBoardApi/GetJobWork', params, this.config())
+        //return axios.post('/TaskBoardApi/GetTaskWork', params, this.config())
     }
 }
