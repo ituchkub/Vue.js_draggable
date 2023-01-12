@@ -162,16 +162,16 @@
                 <div class="header">
                   <h2>{{ column.title }}</h2>
                   <ul class="header-dropdown">
-                    <li><a href="javascript:void(0);" @click="onOpenModel(column.taskId);"><i class="icon-plus"></i></a>
+                    <li><a href="javascript:void(0);" @click="onInsert(column.taskId);"><i class="icon-plus"></i></a>
                     </li>
                   </ul>
                 </div>
                 <!-- Draggable component comes from vuedraggable. It provides drag & drop functionality -->
                 <draggable :list="column.tasks" :animation="200" @end="checkEnd" ghost-class="ghost-card" group="tasks">
                   <!-- Each element from here will be draggable and animated. Note :key is very important here to be unique both for draggable and animations to be smooth & consistent. -->
-                  <!-- <task-card v-for="(task) in   column.tasks" :key="task.id" :task="task" :id="task.id"
+                  <!-- <task-card v-for="(task) in   column.tasks" :key="task.workId" :task="task" :id="task.workId"
                     class="mt-3 cursor-move"></task-card> -->
-                  <div v-for="(task) in   column.tasks" :id="task.id" v-if="task.id" class="mt-3 cursor-move">
+                  <div v-for="(task) in   column.tasks" :id="task.workId" v-if="task.workId" class="mt-3 cursor-move">
                     <div class="dd-handle">
                       <div class=" flex justify-between" style="display: block;">
                         <div class="headerChild">
@@ -179,10 +179,10 @@
                           <ul class="header-dropdown" style="position: absolute;top: -10px;">
                             <div>
                               <li style="display: inline-block"><a href="javascript:void(0);"
-                                  @click="onOpenModel(column.taskId);"><i class="icon-note"></i></a>
+                                  @click="onUpdate(task.workId);"><i class="icon-note"></i></a>
                               </li>
                               <li style="display: inline-block;padding: 0px 0px 0px 4px;"><a href="javascript:void(0);"
-                                  @click="onOpenModel(column.taskId);"><i class="icon-close"></i></a>
+                                  @click="onDelete(task.workId);"><i class="icon-close"></i></a>
                               </li>
                             </div>
                           </ul>
@@ -251,8 +251,10 @@ export default {
     return {
       modalShow: true,
       page: true,
+      module: "",
       columns: [],
-      TaskID: '',
+      TaskId: '',
+      WorkId: '',
       TaskData: {
         _Header: '',
         _Desc: ''
@@ -275,6 +277,7 @@ export default {
 
       evt.to.childNodes.forEach(function (child, index) {
         onUpdateWork(_toId, child.id, index)
+
       });
 
 
@@ -283,8 +286,8 @@ export default {
           //sessionEmpID: sessionStorage.getItem('SessionEmpID'),
           body: {
             taskId: _taskId,
-            WorkId: _WorkId,
-            Sorting: _Sorting
+            workId: _WorkId,
+            sorting: _Sorting
           },
           module: 'updateWork',
         }
@@ -301,46 +304,96 @@ export default {
         })
       }
 
-    }, async onSave() {
+    },
 
-      console.log("Save")
-      console.log(this.TaskData)
+    async onSave() {
       this.$refs['m_Master'].hide();
       let payload =
       {
         sessionEmpID: 0,
         body: {
-          taskId: this.TaskID,
-          header: "string",
-          des: "string"
+          taskId: this.TaskId,
+          WorkId: this.WorkId,
+          header: this.TaskData._Header,
+          des: this.TaskData._Desc
         },
-        module: "insert"
+        module: this.module
       }
       ConfigService.ConfigGetJobWork(payload).then(resp => {
-
         if (resp.data.status) {
-          //this.columns = resp.data.body
-          //this.pagination.totalRows = resp.data.body.length
+
           this.onLoadData();
+          this.TaskData._Desc = this.TaskData._Header = "";
         } else {
-          //this.columns = []
+
           this.onLoadData();
+        }
+      })
+    },
+
+    onInsert(_taskId) {
+      this.$refs['m_Master'].show();
+      this.TaskData._Desc = this.TaskData._Header = "";
+      this.TaskId = _taskId
+      this.module = "insert";
+      //console.log(_taskId)
+
+    },
+
+    async onUpdate(_workId) {
+      this.$refs['m_Master'].show();
+      this.WorkId = _workId
+      this.module = "update";
+
+      let payload = {
+        sessionEmpID: 0,
+        body: {
+          workId: _workId,
+          des: ""
+        },
+        module: 'getlist',
+      }
+      await ConfigService.ConfigGetJobWork(payload).then(resp => {
+        if (resp.data.status) {
+          console.log(resp.data.body[0])
+
+          this.TaskData._Header = resp.data.body[0].Header
+          this.TaskData._Desc = resp.data.body[0].Des
+
+        } else {
+
         }
       })
 
 
 
-
     },
-    onOpenModel(TID) {
-      this.$refs['m_Master'].show();
 
-      this.TaskID = TID
-      console.log(this.TaskID)
+    async onDelete(_workId) {
+
+      //console.log(_workId)
+      //this.$refs['m_Del'].show();
+      let payload = {
+        sessionEmpID: 0,
+        body: {
+          workId: _workId,
+          des: ""
+        },
+        module: 'delete',
+      }
+      await ConfigService.ConfigGetTaskWork(payload).then(resp => {
+        if (resp.data.status) {
+          this.onLoadData()
+        } else {
+          this.onLoadData()
+        }
+      })
     },
+
     mdCancel(NameID) {
       this.$refs[NameID].hide()
     },
+
     async onLoadData() {
       let payload = {
         //sessionEmpID: sessionStorage.getItem('SessionEmpID'),
