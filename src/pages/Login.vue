@@ -1,4 +1,5 @@
 <template>
+
 	<html lang="en">
 
 	<head>
@@ -11,8 +12,8 @@
 
 		<link rel="icon" href="favicon.ico" type="image/x-icon">
 		<!-- VENDOR CSS -->
-		<link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.min.css">
-		<link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="../../public/assets/vendor/bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href="../../public/assets/vendor/font-awesome/css/font-awesome.min.css">
 
 		<!-- MAIN CSS -->
 		<link rel="stylesheet" href="assets/css/main.css">
@@ -26,7 +27,7 @@
 				<div class="vertical-align-middle auth-main">
 					<div class="auth-box">
 						<div class="top">
-							<img src="../assets/images/logo-white.svg" alt="Lucid">
+							<img src="../../public/assets/images/logo-white.svg" alt="Lucid">
 						</div>
 						<div class="card">
 							<div class="header">
