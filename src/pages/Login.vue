@@ -11,16 +11,21 @@
 							<p class="lead">Login to your account</p>
 						</div>
 						<div class="body">
-							<form class="form-auth-small" action="/home">
+							<form class="form-auth-small" @submit.prevent="login()">
 								<div class="form-group">
 									<label for="signin-email" class="control-label sr-only">Email</label>
-									<input type="email" class="form-control" id="signin-email" value=""
-										placeholder="Email">
+									<!-- <input type="email" class="form-control" id="signin-email" value=""
+										placeholder="Email"> -->
+									<b-form-input v-model.trim="InPEmail" placeholder="Email" />
 								</div>
+
+
+
 								<div class="form-group">
 									<label for="signin-password" class="control-label sr-only">Password</label>
-									<input type="password" class="form-control" id="signin-password" value=""
-										placeholder="Password">
+									<!-- <input type="password" class="form-control" id="signin-password" value=""
+										placeholder="Password"> -->
+									<b-form-input v-model.trim="InPPassword" type="password" placeholder="Password" />
 								</div>
 								<div class="form-group clearfix">
 									<label class="fancy-checkbox element-left">
@@ -44,18 +49,63 @@
 </template>
 
 <script>
+import AuthService from "../../service/authService";
+import Helper from "../Helper/customHelper";
 export default {
 	name: "App",
 	components: {
-
 	},
 	data() {
 		return {
-
+			InPEmail: 'Kantathussu@fusionsoft.co.th', InPPassword: ''
 		};
 	},
 	async mounted() {
 	}, methods: {
+
+		async login() {
+			//console.log("LoGIn")
+			if (!Helper.isNullOrEmpty(this.InPEmail)) {
+				await AuthService.Login({
+					Username: this.InPEmail,
+					Email: this.InPEmail
+				}).then(resp => {
+					console.log(resp)
+					if (resp.data.status === true) {
+						const getprop = resp.data.body
+						let rName = [{ rid: 1, rname: 'Developer' }, { rid: 2, rname: 'Project manager' }]
+						var RName = []
+						getprop.roleId.split(',').forEach(roleID => {
+							rName.forEach(item => {
+								if (item.rid == roleID) {
+									RName.push(item.rname)
+								}
+							})
+						})
+						var tempUser = {
+							EmpId: getprop.id,
+							Email: getprop.email,
+							Fullname: getprop.name + " " + getprop.surename,
+							Name: getprop.name,
+							Surename: getprop.surename,
+							RoleId: getprop.roleId.split(','), //  Get RoleID from last digit 
+							RoleName: RName.join(', '),
+							Telephone: getprop.telephone,
+						}
+						sessionStorage.setItem('userInfo', JSON.stringify(tempUser))
+						sessionStorage.setItem('token', resp.data.token)
+						sessionStorage.setItem('SessionEmpID', tempUser.EmpId)
+						sessionStorage.setItem('displayName', tempUser.Fullname)
+						//this.$cookies.set("userInfo", JSON.stringify(tempUser), "1d").set("token", resp.data.token, "1d").set("SessionEmpID", tempUser.EmpId, "1d").set("displayName", tempUser.Fname, "1d")
+
+						// this.$parent.login = 2
+						// this.$parent.checkLogin()
+					}
+				})
+			}
+		}
 	}
-};
+
+}
+	;
 </script>

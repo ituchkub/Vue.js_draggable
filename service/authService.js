@@ -17,6 +17,6 @@ export default {
         }
     },
     Login(param) {
-        return axios.post("/Authen/UserLogin", param, this.config())
+        return axios.post("http://localhost:8010/Authen/UserLogin", param, this.config())
     }
 }
