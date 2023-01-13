@@ -124,204 +124,23 @@
 </template>
 
 <script>
-import draggable from "vuedraggable";
-import TaskCard from "./components/TaskCard.vue";
 import MainMenu from './components/MainMenu.vue'
 import Taskboard from './components/Taskboard.vue'
-import ConfigService from '../service/configService'
 export default {
   name: "App",
   components: {
-    TaskCard,
-    draggable,
+
     MainMenu, Taskboard
   },
   data() {
     return {
-      modalShow: true,
-      page: true,
-      module: "",
-      columns: [],
-      TaskId: '',
-      WorkId: '',
-      TaskData: {
-        _Header: '',
-        _Desc: ''
-      }
+
     };
   },
   async mounted() {
-    this.onLoadData();
-
   }, methods: {
-    checkEnd: function (evt) {
-
-      var _fromId = evt.from.offsetParent.id
-      var _toId = evt.to.offsetParent.id
-
-      evt.from.childNodes.forEach(function (child, index) {
-        onUpdateWork(_fromId, child.id, index)
-      });
-
-
-      evt.to.childNodes.forEach(function (child, index) {
-        onUpdateWork(_toId, child.id, index)
-
-      });
-
-
-      function onUpdateWork(_taskId, _WorkId, _Sorting) {
-        let payload = {
-          //sessionEmpID: sessionStorage.getItem('SessionEmpID'),
-          body: {
-            taskId: _taskId,
-            workId: _WorkId,
-            sorting: _Sorting
-          },
-          module: 'updateWork',
-        }
-
-        console.log(payload)
-        ConfigService.ConfigGetTaskWork(payload).then(resp => {
-
-          if (resp.data.status) {
-            //this.columns = resp.data.body
-            //this.pagination.totalRows = resp.data.body.length
-          } else {
-            //this.columns = []
-          }
-        })
-      }
-
-    },
-
-    async onSave() {
-      this.$refs['m_Master'].hide();
-      let payload =
-      {
-        sessionEmpID: 0,
-        body: {
-          taskId: this.TaskId,
-          WorkId: this.WorkId,
-          header: this.TaskData._Header,
-          des: this.TaskData._Desc
-        },
-        module: this.module
-      }
-      ConfigService.ConfigGetJobWork(payload).then(resp => {
-        if (resp.data.status) {
-
-          this.onLoadData();
-          this.TaskData._Desc = this.TaskData._Header = "";
-        } else {
-
-          this.onLoadData();
-        }
-      })
-    },
-
-    onInsert(_taskId) {
-      this.$refs['m_Master'].show();
-      this.TaskData._Desc = this.TaskData._Header = "";
-      this.TaskId = _taskId
-      this.module = "insert";
-      //console.log(_taskId)
-
-    },
-
-    async onUpdate(_workId) {
-      this.$refs['m_Master'].show();
-      this.WorkId = _workId
-      this.module = "update";
-
-      let payload = {
-        sessionEmpID: 0,
-        body: {
-          workId: _workId,
-          des: ""
-        },
-        module: 'getlist',
-      }
-      await ConfigService.ConfigGetJobWork(payload).then(resp => {
-        if (resp.data.status) {
-          console.log(resp.data.body[0])
-
-          this.TaskData._Header = resp.data.body[0].Header
-          this.TaskData._Desc = resp.data.body[0].Des
-
-        } else {
-
-        }
-      })
-
-
-
-    },
-
-    async onDelete(_workId) {
-
-      //console.log(_workId)
-      //this.$refs['m_Del'].show();
-      let payload = {
-        sessionEmpID: 0,
-        body: {
-          workId: _workId,
-          des: ""
-        },
-        module: 'delete',
-      }
-      await ConfigService.ConfigGetTaskWork(payload).then(resp => {
-        if (resp.data.status) {
-          this.onLoadData()
-        } else {
-          this.onLoadData()
-        }
-      })
-    },
-
-    mdCancel(NameID) {
-      this.$refs[NameID].hide()
-    },
-
-    async onLoadData() {
-      let payload = {
-        //sessionEmpID: sessionStorage.getItem('SessionEmpID'),
-        body: {
-          taskId: "",
-          des: ""
-        },
-        module: 'getlist',
-      }
-      await ConfigService.ConfigGetTaskWork(payload).then(resp => {
-        // console.log(resp)
-        if (resp.data.status) {
-          this.columns = resp.data.body
-          //this.pagination.totalRows = resp.data.body.length
-        } else {
-          this.columns = []
-        }
-      })
-
-    }
   }
 };
 </script>
 
-<style scoped>
-.flex {
-  display: flex;
-}
-
-.column-width {
-  min-width: 320px;
-  width: 100%;
-}
-
-/* Unfortunately @apply cannot be setup in codesandbox, 
-but you'd use "@apply border opacity-50 border-blue-500 bg-gray-200" here */
-.ghost-card {
-  opacity: 0.5;
-  background: #F7FAFC;
-  border: 1px solid #4299e1;
-}
 </style>

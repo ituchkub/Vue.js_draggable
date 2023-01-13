@@ -118,14 +118,13 @@
 <script>
 import draggable from "vuedraggable";
 import TaskCard from "./TaskCard.vue";
-import MainMenu from './MainMenu.vue'
+
 import ConfigService from '../../service/configService'
 export default {
   name: "App",
   components: {
     TaskCard,
     draggable,
-    MainMenu
   },
   data() {
     return {
