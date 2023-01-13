@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import RouterPath from './router_path'
-import PageOptions from './PageOptions'
+
 
 Vue.use(VueRouter)
 
