@@ -117,135 +117,24 @@
         </div>
       </nav>
       <MainMenu />
-      <div id="main-content" class="taskboard">
-        <div class="container-fluid">
-          <div class="block-header">
-            <div class="row">
-              <div class="col-lg-6 col-md-8 col-sm-12">
-                <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i
-                      class="fa fa-arrow-left"></i></a> TaskBoard</h2>
-                <ul class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="index.html"><i class="icon-home"></i></a></li>
-                  <li class="breadcrumb-item">Apps</li>
-                  <li class="breadcrumb-item active">TaskBoard</li>
-                </ul>
-              </div>
-              <div class="col-lg-6 col-md-4 col-sm-12 text-right">
-                <div class="bh_chart hidden-xs">
-                  <div class="float-left m-r-15">
-                    <small>Visitors</small>
-                    <h6 class="mb-0 mt-1"><i class="icon-user"></i> 1,784</h6>
-                  </div>
-                  <span class="bh_visitors float-right">2,5,1,8,3,6,7,5</span>
-                </div>
-                <div class="bh_chart hidden-sm">
-                  <div class="float-left m-r-15">
-                    <small>Visits</small>
-                    <h6 class="mb-0 mt-1"><i class="icon-globe"></i> 325</h6>
-                  </div>
-                  <span class="bh_visits float-right">10,8,9,3,5,8,5</span>
-                </div>
-                <div class="bh_chart hidden-sm">
-                  <div class="float-left m-r-15">
-                    <small>Chats</small>
-                    <h6 class="mb-0 mt-1"><i class="icon-bubbles"></i> 13</h6>
-                  </div>
-                  <span class="bh_chats float-right">1,8,5,6,2,4,3,2</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="">
-            <div class="flex">
-              <div v-for="column in columns" :key="column.title" class="card" :id="column.taskId"
-                :class="column.title.toLocaleLowerCase() + '_task '">
-                <div class="header">
-                  <h2>{{ column.title }}</h2>
-                  <ul class="header-dropdown">
-                    <li><a href="javascript:void(0);" @click="onInsert(column.taskId);"><i class="icon-plus"></i></a>
-                    </li>
-                  </ul>
-                </div>
-                <!-- Draggable component comes from vuedraggable. It provides drag & drop functionality -->
-                <draggable :list="column.tasks" :animation="200" @end="checkEnd" ghost-class="ghost-card" group="tasks">
-                  <!-- Each element from here will be draggable and animated. Note :key is very important here to be unique both for draggable and animations to be smooth & consistent. -->
-                  <!-- <task-card v-for="(task) in   column.tasks" :key="task.workId" :task="task" :id="task.workId"
-                    class="mt-3 cursor-move"></task-card> -->
-                  <div v-for="(task) in   column.tasks" :id="task.workId" v-if="task.workId" class="mt-3 cursor-move">
-                    <div class="dd-handle">
-                      <div class=" flex justify-between" style="display: block;">
-                        <div class="headerChild">
-                          <h6>{{ task.head }}</h6>
-                          <ul class="header-dropdown" style="position: absolute;top: -10px;">
-                            <div>
-                              <li style="display: inline-block"><a href="javascript:void(0);"
-                                  @click="onUpdate(task.workId);"><i class="icon-note"></i></a>
-                              </li>
-                              <li style="display: inline-block;padding: 0px 0px 0px 4px;"><a href="javascript:void(0);"
-                                  @click="onDelete(task.workId);"><i class="icon-close"></i></a>
-                              </li>
-                            </div>
-                          </ul>
-                        </div>
-                        <p>{{ task.title }}</p>
-                      </div>
-                    </div>
-
-                  </div>
-                  <!-- </transition-group> -->
-                </draggable>
-              </div>
-            </div>
-          </div>
-          <b-modal ref="m_Master" size="s" title="Add New Task" hide-footer hide-backdrop>
-            <form @submit.prevent="onSave()" @keypress.enter="$event.preventDefault();">
-              <!-- <div class="modal-dialog" role="document"> -->
-              <!-- <div class="modal-content">
-          <div class="modal-header">
-            <h6 class="title" id="defaultModalLabel"></h6>
-          </div> -->
-              <!-- <div class="modal-body"> -->
-              <div class="row clearfix">
-                <div class="col-12">
-                  <div class="form-group">
-                    <!-- <input type="text" class="form-control" placeholder="Job title"> -->
-                    <b-form-input v-model.trim="TaskData._Header" placeholder="Title" />
-
-                  </div>
-                </div>
-                <div class="col-12">
-                  <div class="form-group">
-                    <!-- <textarea class="form-control" placeholder="Description"></textarea> -->
-                    <b-form-textarea v-model.trim="TaskData._Desc" placeholder="Detail" />
-                  </div>
-                </div>
-              </div>
-              <!-- </div> -->
-              <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Add</button>
-                <button type="button" class="btn btn-secondary" @click="mdCancel('m_Master')">CLOSE</button>
-              </div>
-              <!-- </div> -->
-              <!-- </div> -->
-            </form>
-          </b-modal>
-        </div>
-      </div>
+      <Taskboard />
     </div>
   </div>
+
 </template>
 
 <script>
 import draggable from "vuedraggable";
 import TaskCard from "./components/TaskCard.vue";
 import MainMenu from './components/MainMenu.vue'
+import Taskboard from './components/Taskboard.vue'
 import ConfigService from '../service/configService'
 export default {
   name: "App",
   components: {
     TaskCard,
     draggable,
-    MainMenu
+    MainMenu, Taskboard
   },
   data() {
     return {
