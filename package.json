@@ -13,6 +13,7 @@
     "bootstrap-icons-vue": "^1.8.1",
     "bootstrap-vue": "^2.23.1",
     "vue": "^2.5.22",
+    "vue-router": "^4.1.6",
     "vuedraggable": "2.23.2"
   },
   "devDependencies": {

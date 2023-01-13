@@ -197,41 +197,41 @@
               </div>
             </div>
           </div>
-          <b-modal ref="m_Master" size="s" title="Add New Task" hide-footer hide-backdrop>
-            <form @submit.prevent="onSave()" @keypress.enter="$event.preventDefault();">
-              <!-- <div class="modal-dialog" role="document"> -->
-              <!-- <div class="modal-content">
-          <div class="modal-header">
-            <h6 class="title" id="defaultModalLabel"></h6>
-          </div> -->
-              <!-- <div class="modal-body"> -->
-              <div class="row clearfix">
-                <div class="col-12">
-                  <div class="form-group">
-                    <!-- <input type="text" class="form-control" placeholder="Job title"> -->
-                    <b-form-input v-model.trim="TaskData._Header" placeholder="Title" />
-
-                  </div>
-                </div>
-                <div class="col-12">
-                  <div class="form-group">
-                    <!-- <textarea class="form-control" placeholder="Description"></textarea> -->
-                    <b-form-textarea v-model.trim="TaskData._Desc" placeholder="Detail" />
-                  </div>
-                </div>
-              </div>
-              <!-- </div> -->
-              <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Add</button>
-                <button type="button" class="btn btn-secondary" @click="mdCancel('m_Master')">CLOSE</button>
-              </div>
-              <!-- </div> -->
-              <!-- </div> -->
-            </form>
-          </b-modal>
         </div>
       </div>
     </div>
+    <b-modal ref="m_Master" size="s" title="Add New Task" hide-footer hide-backdrop>
+      <form @submit.prevent="onSave()" @keypress.enter="$event.preventDefault();">
+        <!-- <div class="modal-dialog" role="document"> -->
+        <!-- <div class="modal-content">
+          <div class="modal-header">
+            <h6 class="title" id="defaultModalLabel"></h6>
+          </div> -->
+        <!-- <div class="modal-body"> -->
+        <div class="row clearfix">
+          <div class="col-12">
+            <div class="form-group">
+              <!-- <input type="text" class="form-control" placeholder="Job title"> -->
+              <b-form-input v-model.trim="TaskData._Header" placeholder="Title" />
+
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-group">
+              <!-- <textarea class="form-control" placeholder="Description"></textarea> -->
+              <b-form-textarea v-model.trim="TaskData._Desc" placeholder="Detail" />
+            </div>
+          </div>
+        </div>
+        <!-- </div> -->
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Add</button>
+          <button type="button" class="btn btn-secondary" @click="mdCancel('m_Master')">CLOSE</button>
+        </div>
+        <!-- </div> -->
+        <!-- </div> -->
+      </form>
+    </b-modal>
   </div>
 </template>
 
