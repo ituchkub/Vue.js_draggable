@@ -12,7 +12,7 @@
               <li class="breadcrumb-item active">TaskBoard</li>
             </ul>
           </div>
-          <div class="col-lg-6 col-md-4 col-sm-12 text-right">
+          <!-- <div class="col-lg-6 col-md-4 col-sm-12 text-right">
             <div class="bh_chart hidden-xs">
               <div class="float-left m-r-15">
                 <small>Visitors</small>
@@ -34,13 +34,13 @@
               </div>
               <span class="bh_chats float-right">1,8,5,6,2,4,3,2</span>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
       <div class="">
         <div class="flex">
-          <div v-for="column in columns" :key="column.title" class="card" :id="column.taskId"
-            :class="column.title.toLocaleLowerCase() + '_task '">
+          <div v-for="column in columns" :key="column.title" class="card" :id="column.taskId" :class="column.title.toLocaleLowerCase() + '_task ' +
+          (column.title.toLocaleLowerCase() === 'completed' ? 'bg-dark' : '')">
             <div class="header">
               <h2>{{ column.title }}</h2>
               <ul class="header-dropdown">

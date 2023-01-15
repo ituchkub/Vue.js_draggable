@@ -117,7 +117,7 @@
 											<span>Renewals</span></a></li>
 								</ul>
 							</li>
-							<li><a href="page-login.html" class="icon-menu"><i class="icon-login"></i></a></li>
+							<li><a href="" class="icon-menu" @click="logout()"><i class="icon-login"></i></a></li>
 						</ul>
 					</div>
 				</div>
@@ -144,7 +144,16 @@ export default {
 		};
 	},
 	async mounted() {
+		console.log(sessionStorage.getItem('displayName'))
 	}, methods: {
+		logout() {
+			this.login = 1
+			sessionStorage.clear()
+			localStorage.clear()
+			this.$cookies.keys().forEach(cookie => this.$cookies.remove(cookie))
+			// axios.defaults.baseURL = Vue.prototype.$config.apiUrlAD;
+			//this.$router.push('/Login')
+		}
 	}
 };
 </script>

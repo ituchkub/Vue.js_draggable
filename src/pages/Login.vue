@@ -61,6 +61,7 @@ export default {
 		};
 	},
 	async mounted() {
+
 	}, methods: {
 
 		async login() {
@@ -96,14 +97,19 @@ export default {
 						sessionStorage.setItem('token', resp.data.token)
 						sessionStorage.setItem('SessionEmpID', tempUser.EmpId)
 						sessionStorage.setItem('displayName', tempUser.Fullname)
-						//this.$cookies.set("userInfo", JSON.stringify(tempUser), "1d").set("token", resp.data.token, "1d").set("SessionEmpID", tempUser.EmpId, "1d").set("displayName", tempUser.Fname, "1d")
+
+						sessionStorage.setItem('lgName', tempUser.Name)
+						sessionStorage.setItem('lgSurname', tempUser.Surename)
+
+						this.$cookies.set("userInfo", JSON.stringify(tempUser), "5d").set("token", resp.data.token, "5d").set("SessionEmpID", tempUser.EmpId, "5d").set("displayName", tempUser.Fullname, "5d").set("lgName", tempUser.Name, "5d").set("lgSurname", tempUser.Surename, "5d")
 
 						// this.$parent.login = 2
-						// this.$parent.checkLogin()
+						this.$parent.checkLogin()
 					}
 				})
 			}
 		}
+
 	}
 
 }

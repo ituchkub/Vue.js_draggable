@@ -4,9 +4,12 @@
       <div class="user-account">
         <img src="../../public/assets/images/user.png" class="rounded-circle user-photo" alt="User Profile Picture">
         <div class="dropdown">
-          <span>Welcome,</span>
-          <a href="javascript:void(0);" class="dropdown-toggle user-name" data-toggle="dropdown"><strong>Jessica
-              Doe</strong></a>
+          <!-- <span>Welcome,</span> -->
+          <a href="javascript:void(0);" class="dropdown-toggle user-name" data-toggle="dropdown"><strong>{{
+            lgName + " " + lgSurname.substring(0, 2) + "."
+          }}
+            </strong></a>
+          <span style="font-size: 13PX;color: #6e6e6e;">Developer</span>
           <ul class="dropdown-menu dropdown-menu-right account animated flipInY">
             <li><a href="page-profile2.html"><i class="icon-user"></i>My Profile</a></li>
             <li><a href="app-inbox.html"><i class="icon-envelope-open"></i>Messages</a></li>
@@ -328,9 +331,27 @@
     </div>
   </div>
 </template>
-<script setup>
 
+<script >
+export default {
+  name: "App",
+  components: {
+
+  },
+  data() {
+    return {
+      lgName: '',
+      lgSurname: ''
+    };
+  },
+  async mounted() {
+    this.lgName = sessionStorage.getItem('lgName')
+    this.lgSurname = sessionStorage.getItem('lgSurname')
+  }, methods: {
+
+  }
+};
 </script>
-<style scoped>
+<style >
 
 </style>
